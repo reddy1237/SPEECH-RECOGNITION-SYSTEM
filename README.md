@@ -40,4 +40,5 @@ Technology Used
 
 • Evaluation Tools: Metrics like Word Error Rate (WER) for assessing system accuracy.
 
-OUTPUT
+OUTPUT 
+<img width="1040" height="368" alt="Image" src="https://github.com/user-attachments/assets/9f383660-e9f4-4e5c-80fd-3f8e688add75" />
