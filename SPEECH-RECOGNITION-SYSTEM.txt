@@ -1,0 +1,85 @@
+# Import required libraries
+import speech_recognition as sr
+
+# Function to recognize speech from the microphone
+def recognize_speech_from_microphone():
+    """
+    Recognize speech from the microphone and convert it to text.
+    
+    Returns:
+        str: Transcribed text from the spoken audio.
+    """
+    # Initialize recognizer
+    recognizer = sr.Recognizer()
+    
+    with sr.Microphone() as source:
+        print("Adjusting for ambient noise... Please wait.")
+        recognizer.adjust_for_ambient_noise(source)  # Reduce background noise
+        print("Listening... Please speak.")
+        
+        try:
+            # Listen for speech
+            audio = recognizer.listen(source, timeout=10)  # Record for 10 seconds
+            print("Processing your speech...")
+            
+            # Convert speech to text using Google Web Speech API
+            text = recognizer.recognize_google(audio)
+            print("You said:", text)
+            return text
+        except sr.WaitTimeoutError:
+            print("Listening timed out. Please try again.")
+        except sr.UnknownValueError:
+            print("Sorry, could not understand the audio.")
+        except sr.RequestError as e:
+            print(f"Could not request results; {e}")
+        return None
+
+# Function to recognize speech from an audio file
+def recognize_speech_from_audio_file(file_path):
+    """
+    Recognize speech from an audio file and convert it to text.
+    
+    Parameters:
+        file_path (str): Path to the audio file (e.g., WAV format).
+        
+    Returns:
+        str: Transcribed text from the audio file.
+    """
+    # Initialize recognizer
+    recognizer = sr.Recognizer()
+    
+    try:
+        # Load the audio file
+        with sr.AudioFile(file_path) as source:
+            print("Processing audio file...")
+            audio = recognizer.record(source)  # Read the audio file
+            
+            # Convert speech to text using Google Web Speech API
+            text = recognizer.recognize_google(audio)
+            print("Transcription:", text)
+            return text
+    except FileNotFoundError:
+        print("Audio file not found. Please check the path.")
+    except sr.UnknownValueError:
+        print("Sorry, could not understand the audio.")
+    except sr.RequestError as e:
+        print(f"Could not request results; {e}")
+    return None
+
+# Main code execution
+print("Speech Recognition System")
+print("1. Recognize speech from microphone")
+print("2. Recognize speech from audio file")
+
+# Choose an option
+choice = int(input("Enter your choice (1 or 2): "))
+
+if choice == 1:
+    # Recognize speech from microphone
+    recognize_speech_from_microphone()
+elif choice == 2:
+    # Recognize speech from audio file
+    file_path = input("Enter the path to the audio file (e.g., sample.wav): ")
+    recognize_speech_from_audio_file(r"C:\Users\Vaishnavi\Downloads\harvard.wav")
+else:
+    print("Invalid choice. Please select 1 or 2.")
